@@ -1,12 +1,9 @@
 import os
 os.sys.path.append('/home/ismael/.local/lib/python3.8/site-packages')# Needed to be executed as root, change the path for the path where scapy is located in your machine 
-
 from scapy.all import send, Raw, sniff, sendp, socket
 from scapy.layers.inet import IP, TCP, in4_chksum
 import sys
-#send(IP(dst="10.0.2.5")/TCP(dport=80)/Raw(load="Hola Mundo"), count=5)
-
-
+import json
 
 iface = "eth1"
 filter = "ip"
@@ -17,15 +14,19 @@ SENDER_IP = "10.0.2.6" #IP of the customer of our client
 def handle_packet(packet):
     
     #*** NEW APPROACH ***
-    #packet[IP].src = MY_IP
     if packet[IP].dst == LOCAL_IP and packet[IP].src == SENDER_IP:
 
-        src = packet[IP].src
+        ip_src = packet[IP].src
+        ip_dst = packet[IP].dst
         s_port = packet[TCP].sport
-        dport = packet[TCP].dport
-        print(str(src) + " " + str(s_port) + " " + str(dport))
+        d_port = packet[TCP].dport
+        tcp_flags = str(packet[TCP].flags)
+        js = {"ip_src": ip_src, "ip_dst": ip_dst, "s_port": s_port, "d_port": d_port, "tcp_flags" : tcp_flags}
 
-        send(IP(dst="10.0.2.4")/TCP(dport=8000)/Raw(load=str(src) + " " + str(s_port) + " " + str(dport)))
+        payload = json.dumps(js)
+        print(payload)
+
+        send(IP(dst="10.0.2.4")/TCP(dport=8000)/Raw(load=payload))
         
 
 '''
