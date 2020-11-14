@@ -2,11 +2,12 @@
 
 """
 TODO: Create the following bds and methods
-    BDs
+    BD Tables
         1.Clients:
-            - ID or client name
+            - ID or client name [PRIMARY KEY]
             - IP client
         2.Packets
+            - ID record [PRIMARY KEY]
             - Day
             - Time slot (every 15min during 24hours of the day)
             - Number of packets

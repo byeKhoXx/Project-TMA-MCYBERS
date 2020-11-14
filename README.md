@@ -1,7 +1,7 @@
 # TMA-MCYBERS
 
 ## Work
-clients_management -> Cankut
+clients_management (all in the file) -> Cankut
 
 attack respons -> Albert
 
