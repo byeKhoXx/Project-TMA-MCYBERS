@@ -7,7 +7,7 @@ attack respons -> Albert
 
 crons -> Ismael
 
-detection -> Martí
+detection (functions inside cron and explain the detection) -> Martí
 
 ## Mode of operation
 If high traffic is expected on a specific day the client must report us to avoid possible problems.
