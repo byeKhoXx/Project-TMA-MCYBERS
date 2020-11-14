@@ -2,8 +2,11 @@
 
 ## Work
 clients_management -> Cankut
+
 attack respons -> Albert
+
 crons -> Ismael
+
 detection -> Martí
 
 ## Mode of operation
