@@ -17,12 +17,10 @@ global packets # Number of packets recived las 15min
 # cron ->sched.scheduler  https://docs.python.org/3/library/sched.html
 
 # DoS detection
-""" 
-TODO: 
-cron every 1 min:
-    r = number of minute % 2
-"""
+
 def clean_dic():
+#TODO -> r = number of minute % 2
+
     global d1
     global d2
     if r == 0:
@@ -37,13 +35,13 @@ def clean_dic():
         d2 = dict()
 
 # DDoS detection
+
+def add_to_ddbb():
 """
-TODO:
-cron every 15 min
-    add_packets(client, day, time slot, packets)
+    TODO ->
+    clients_managements.add_packets(client, day, time slot, packets)
     mean10 = mean_last_10(client, time slot)
 """
-def add_to_ddbb():
     if packets > mean10 *2:
         # DDoS attack
     global packets
