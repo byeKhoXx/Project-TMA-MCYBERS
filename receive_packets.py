@@ -2,6 +2,8 @@ from scapy.all import *
 from scapy.layers.http import HTTP, HTTPRequest, TCP_client
 from clients_managment import *
 import json
+import schedule
+import threading
 
 
 LOCAL_IP = "10.0.2.4"
@@ -20,6 +22,7 @@ TODO:
 cron every 1 min:
     r = number of minute % 2
 """
+def clean_dic():
     global d1
     global d2
     if r == 0:
@@ -40,12 +43,17 @@ cron every 15 min
     add_packets(client, day, time slot, packets)
     mean10 = mean_last_10(client, time slot)
 """
+def add_to_ddbb():
     if packets > mean10 *2:
         # DDoS attack
     global packets
     packets=0
 
-
+def scheduler(): #Scheduler for tasks every X minutes
+    schedule.every().minute.do(clean_dic) # Executing "clean_dic()" every minute
+    schedule.every(15).minutes.do(add_to_ddbb) # Executing "add_to_ddbb()" eevry 15 minutes
+    while 1:
+        schedule.run_pending()
 
 def handle_packet(packet):
     if packet[IP].dst == LOCAL_IP and packet[IP].src == REMOTE_IP:
@@ -67,3 +75,7 @@ def handle_packet(packet):
         print(packet_raw)
 
 sniff(iface='eth1', prn=handle_packet, filter="ip")
+
+t=threading.Thread(target=scheduler) #Threading the scheduler
+#t.daemon = True  # set thread to daemon ('ALGO' won't be printed in this case)
+t.start()
