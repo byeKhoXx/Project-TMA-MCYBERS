@@ -1,33 +1,16 @@
-# Client Management
+from db_model.db_connection import db_connection
+from db_model.client import Client
 
-"""
-TODO: Create the following bds and methods
-    BD Tables
-        1.Clients:
-            - ID or client name [PRIMARY KEY]
-            - IP client
-        2.Packets
-            - ID record [PRIMARY KEY]
-            - Day
-            - Time slot (every 15min during 24hours of the day)
-            - Number of packets
-            - Client: Foreign key to Clients table
+db = db_connection()
 
+def new_client(name, ip):
+    client = Client.get_client_by_name(name, db)
+    if client is None:
+        client = Client(name, ip)
+        Client.insert_db(client, db)
 
-    Methods:
-        1. new_client(name, ip):
-            add a new entry to the clients table with the name and ip
-
-        2. get_ip_client(client)
-            return the ip of the client
-
-        3. add_packets(client, day, time slot, number of packets):
-            adds to the table packets the day, time slot and number of packets and the foreign key with the user.
-
-        4. mean_last_10(client, time slot):
-            queries to the packets table the last 10 days in the same time slot and client and returns the mean
-
-"""
-
+def get_client_by_name(name):
+    result = Client.get_client_by_name(name, db)
+    return result
 
 
