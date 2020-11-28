@@ -1,15 +1,16 @@
 from scapy.all import *
 from scapy.layers.http import HTTP, HTTPRequest, TCP_client
-from clients_managment import *
+from datetime import date
 import json
 import schedule
 import threading
 import time
+impot clients_managment
 
 
 LOCAL_IP = "10.0.2.4"
-client = input("Client:")
-REMOTE_IP = get_ip_client(client)
+global client = clients_managment.get_client_by_name(getinput("Client:"))
+REMOTE_IP = client.ip
 
 global d1 = dict() # Define dictionary 1 [ip_src, number of packets]
 global d2 = dict() # Define dictionary 2 [ip_src, number of packets]
@@ -18,7 +19,6 @@ global packets # Number of packets recived las 15min
 # cron ->sched.scheduler  https://docs.python.org/3/library/sched.html
 
 # DoS detection
-
 def clean_dic():
     seconds = time.time()
     r = (seconds/60) % 2
@@ -36,13 +36,12 @@ def clean_dic():
         d2 = dict()
 
 # DDoS detection
-
 def add_to_ddbb():
-"""
-    TODO ->
-    clients_managements.add_packets(client, day, time slot, packets)
-    mean10 = mean_last_10(client, time slot)
-"""
+    time_slot_calc = time.time() / 600 # Every 10 min
+    global packets
+    global client
+    clients_managment.add_new_packet(client, date.today(), time_slot_calc, packets)
+    mean10 = clients_managment.mean_last_10(client, time_slot_calc)
     if packets > mean10 *2:
         # DDoS attack
     global packets
