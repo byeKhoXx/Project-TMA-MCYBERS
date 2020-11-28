@@ -35,23 +35,18 @@ def get_mean_for_last(client,time_slot,num_of_days = 10):
 # Test code
 
 # Insert client
-client_name = "demo_name"
-client_ip =   "demo_ip"
-add_new_client(client_name, client_ip)
+
+#client_name = input("Type the client's name: ")
+#client_ip = input("Type the client's IP address: ")
+#add_new_client(client_name, client_ip)
 
 # Insert package
-packet_date = date.today()
-packet_time_slot = 5
-packet_count = 10
-client = get_client_by_name(client_name)
-add_new_packet(client,packet_date,packet_time_slot,packet_count)
+#packet_date = date.today()
+#packet_time_slot = 5
+#packet_count = 10
+#client = get_client_by_name(client_name)
+#add_new_packet(client,packet_date,packet_time_slot,packet_count)
 
 
 # Get mean for x number of days perios
-mean_value = get_mean_for_last(client,packet_time_slot)
-
-
-
-
-
-
+#mean_value = get_mean_for_last(client,packet_time_slot)
