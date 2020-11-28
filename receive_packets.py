@@ -4,6 +4,7 @@ from clients_managment import *
 import json
 import schedule
 import threading
+import time
 
 
 LOCAL_IP = "10.0.2.4"
@@ -19,8 +20,8 @@ global packets # Number of packets recived las 15min
 # DoS detection
 
 def clean_dic():
-#TODO -> r = number of minute % 2
-
+    seconds = time.time()
+    r = (seconds/60) % 2
     global d1
     global d2
     if r == 0:
