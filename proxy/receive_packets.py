@@ -1,12 +1,11 @@
 from scapy.all import *
-from scapy.layers.http import HTTP, HTTPRequest, TCP_client
 from datetime import date
 import json
 import schedule
 import threading
 import time
 import clients_managment
-import os
+from response import attack_handler
 
 inp = input("Client:")
 
@@ -34,6 +33,7 @@ def clean_dic():
             if d1[key] > 20:
                 # Attack using ip = key
                 print("NEW ATTACK: DoS")
+                attack_handler()
         d1 = dict()
     else: 
         print("1")
@@ -42,7 +42,9 @@ def clean_dic():
             if d2[key] > 20:
                 # Attack using ip = key
                 print("NEW ATTACK: DoS")
+                attack_handler()
         d2 = dict()
+
 
 # DDoS detection
 def add_to_ddbb():
@@ -54,13 +56,16 @@ def add_to_ddbb():
     if packets > mean10 *2:
         # DDoS attack
         print("NEW ATTACK: DDoS")
+        attack_handler()
     packets=0
+
 
 def scheduler(): #Scheduler for tasks every X minutes
     schedule.every().minute.do(clean_dic) # Executing "clean_dic()" every minute
     schedule.every(15).minutes.do(add_to_ddbb) # Executing "add_to_ddbb()" eevry 15 minutes
     while 1:
         schedule.run_pending()
+
 
 def handle_packet(packet):
     if packet[IP].src == REMOTE_IP:
@@ -95,6 +100,6 @@ t=threading.Thread(target=scheduler) #Threading the scheduler
 #t.daemon = True  # set thread to daemon ('ALGO' won't be printed in this case)
 t.start()
 
-sniff(iface='eth1', prn=handle_packet, filter="ip")
+sniff(iface='enp0s3', prn=handle_packet, filter="ip")
 
 
