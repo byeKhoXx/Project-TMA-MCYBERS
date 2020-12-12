@@ -16,10 +16,12 @@ from ..http.parser import HttpParser
 from ..http.codes import httpStatusCodes
 from ..http.websocket import WebsocketFrame
 from ..http.server import HttpWebServerBasePlugin, httpProtocolTypes
+from pprint import pprint as pp
 
 
 logger = logging.getLogger(__name__)
 WEBSERVER_IP = "10.0.5.4"
+PATH_TO_BLOCK_LIST = "/home/albert752/block_list.txt"
 
 
 class WebServerPlugin(HttpWebServerBasePlugin):
@@ -33,13 +35,17 @@ class WebServerPlugin(HttpWebServerBasePlugin):
         ]
 
     def handle_request(self, request: HttpParser) -> None:
-        response = requests.get("http://" + WEBSERVER_IP).content
-        if request.path == b'/':
-            self.client.queue(memoryview(build_http_response(
-                httpStatusCodes.OK, body=response)))
-        elif request.path == b'/':
-            self.client.queue(memoryview(build_http_response(
-                httpStatusCodes.OK, body=response)))
+        with open(PATH_TO_BLOCK_LIST, 'r') as fp:
+            ips = fp.read().splitlines()
+            fp.close()
+        if self.client.addr[0] not in ips:
+            response = requests.get("http://" + WEBSERVER_IP).content
+            if request.path == b'/':
+                self.client.queue(memoryview(build_http_response(
+                    httpStatusCodes.OK, body=response)))
+            elif request.path == b'/':
+                self.client.queue(memoryview(build_http_response(
+                    httpStatusCodes.OK, body=response)))
 
     def on_websocket_open(self) -> None:
         logger.info('Websocket open')

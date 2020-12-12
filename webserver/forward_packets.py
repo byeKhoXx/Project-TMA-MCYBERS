@@ -12,8 +12,7 @@ SENDER_IP = "10.0.2.15" #IP of the customer of our client
 
 counter = 0
 payload = ""
-def handle_packet(packet):
-    
+def handle_packet(packet):    
     if packet[IP].dst == LOCAL_IP and packet[IP].src == SENDER_IP:
         global counter
         counter = counter + 1
@@ -28,7 +27,7 @@ def handle_packet(packet):
         payload = payload + "-TMA-"+ json.dumps(js)
         print(payload)
         if counter >= 5:
-                send(IP(dst="10.0.2.4")/TCP(dport=8000)/Raw(load=payload))
+                send(IP(dst=REMOTE_IP)/TCP(dport=8000)/Raw(load=payload))
                 counter = 0
                 payload = ""
         

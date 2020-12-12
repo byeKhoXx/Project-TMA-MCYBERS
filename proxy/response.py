@@ -22,9 +22,10 @@ def switch_fqdn(name, IP):
 #    return os.system(f"sudo ip link set dev {iface} up")
 
 
-def attack_handler():
+def dos_attack_handler(ip):
     print(switch_fqdn('acme', '10.0.2.6'))
     os.system('echo "" | nc -q0 10.0.5.4 1234')
+    os.system(f"echo {ip} > /home/albert752/block_list.txt")
 
 
 if __name__ == '__main__':
