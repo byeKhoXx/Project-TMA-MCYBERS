@@ -6,7 +6,7 @@ import json
 
 iface = "enp0s3"
 filter = "ip"
-REMOTE_IP = "10.0.2.6" #IP of our VPS
+REMOTE_IP = "10.0.5.6" #IP of our VPS
 LOCAL_IP = "10.0.2.4" #IP of our client
 SENDER_IP = "10.0.2.15" #IP of the customer of our client
 

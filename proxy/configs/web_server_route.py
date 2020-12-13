@@ -17,6 +17,8 @@ from ..http.codes import httpStatusCodes
 from ..http.websocket import WebsocketFrame
 from ..http.server import HttpWebServerBasePlugin, httpProtocolTypes
 from pprint import pprint as pp
+import json
+import time
 
 
 logger = logging.getLogger(__name__)
@@ -36,9 +38,9 @@ class WebServerPlugin(HttpWebServerBasePlugin):
 
     def handle_request(self, request: HttpParser) -> None:
         with open(PATH_TO_BLOCK_LIST, 'r') as fp:
-            ips = fp.read().splitlines()
+            ips = json.load(fp)
             fp.close()
-        if self.client.addr[0] not in ips:
+        if self.client.addr[0] not in list(ips.keys()) or time.time() > ips[self.client.addr[0]]:
             response = requests.get("http://" + WEBSERVER_IP).content
             if request.path == b'/':
                 self.client.queue(memoryview(build_http_response(

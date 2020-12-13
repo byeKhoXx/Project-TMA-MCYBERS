@@ -2,6 +2,9 @@ import requests
 from time import sleep
 from random import randrange
 import os
+import json
+import time
+
 
 def switch_fqdn(name, IP):
     tries = 1
@@ -25,7 +28,15 @@ def switch_fqdn(name, IP):
 def dos_attack_handler(ip):
     print(switch_fqdn('acme', '10.0.2.6'))
     os.system('echo "" | nc -q0 10.0.5.4 1234')
-    os.system(f"echo {ip} > /home/albert752/block_list.txt")
+
+    with open('/home/albert752/block_list.txt', "r+") as jsonFile:
+        ips = json.load(jsonFile)
+        ips.update({ip: time.time() + 10})
+
+        jsonFile.seek(0)
+        json.dump(ips, jsonFile)
+        jsonFile.truncate()
+
 
 def ddos_attack_handler(ips):
     print(switch_fqdn('acme', '10.0.2.6'))

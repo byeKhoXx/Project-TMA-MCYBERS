@@ -73,9 +73,9 @@ def scheduler():  # Scheduler for tasks every X minutes
 
 
 def handle_packet(packet):
-    print("received message")
+    print("reveived passcket")
     if packet[IP].src == REMOTE_IP:
-        print("received messagewww")
+        print("reveived packet")
         packet_raw = raw(packet)
         packet_clean = str(packet_raw).split("-TMA-")
         packetss = []
@@ -107,6 +107,6 @@ t = threading.Thread(target=scheduler)  # Threading the scheduler
 # t.daemon = True  # set thread to daemon ('ALGO' won't be printed in this case)
 t.start()
 
-sniff(iface='enp0s3', prn=handle_packet, filter="ip")
+sniff(iface='enp0s9', prn=handle_packet, filter="ip")
 
 
