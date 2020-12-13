@@ -61,7 +61,7 @@ def add_to_ddbb():
     if packets > mean10 * 2:
         # DDoS attack
         print("NEW ATTACK: DDoS")
-        ddos_attack_handler()
+        ddos_attack_handler("")
     packets = 0
 
 
