@@ -1,4 +1,4 @@
-from response import dos_attack_handler
+from response import dos_attack_handler, ddos_attack_handler
 from scapy.all import *
 from scapy.layers.http import HTTP, HTTPRequest, TCP_client
 from datetime import date
@@ -61,7 +61,7 @@ def add_to_ddbb():
     if packets > mean10 * 2:
         # DDoS attack
         print("NEW ATTACK: DDoS")
-        attack_handler()
+        ddos_attack_handler()
     packets = 0
 
 
@@ -73,7 +73,9 @@ def scheduler():  # Scheduler for tasks every X minutes
 
 
 def handle_packet(packet):
+    print("received message")
     if packet[IP].src == REMOTE_IP:
+        print("received messagewww")
         packet_raw = raw(packet)
         packet_clean = str(packet_raw).split("-TMA-")
         packetss = []

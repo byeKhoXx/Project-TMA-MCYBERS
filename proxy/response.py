@@ -27,6 +27,12 @@ def dos_attack_handler(ip):
     os.system('echo "" | nc -q0 10.0.5.4 1234')
     os.system(f"echo {ip} > /home/albert752/block_list.txt")
 
+def ddos_attack_handler(ips):
+    print(switch_fqdn('acme', '10.0.2.6'))
+    os.system('echo "" | nc -q0 10.0.5.4 1234')
+    for ip in ips:
+        os.system(f"echo {ip} >> /home/albert752/block_list.txt")
+
 
 if __name__ == '__main__':
     attack_handler()
