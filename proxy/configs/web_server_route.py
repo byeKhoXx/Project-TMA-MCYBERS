@@ -24,6 +24,8 @@ import time
 logger = logging.getLogger(__name__)
 WEBSERVER_IP = "10.0.5.4"
 PATH_TO_BLOCK_LIST = "/home/albert752/block_list.txt"
+CACHE = {"time": 0, "data": None}
+MAX_CACHE_TIME = 10
 
 
 class WebServerPlugin(HttpWebServerBasePlugin):
@@ -41,13 +43,16 @@ class WebServerPlugin(HttpWebServerBasePlugin):
             ips = json.load(fp)
             fp.close()
         if self.client.addr[0] not in list(ips.keys()) or time.time() > ips[self.client.addr[0]]:
-            response = requests.get("http://" + WEBSERVER_IP).content
+            if CACHE['time'] + MAX_CACHE_TIME < time.time():
+                response = requests.get("http://" + WEBSERVER_IP).content
+                CACHE['time'] = time.time()
+                CACHE['data'] = response
             if request.path == b'/':
                 self.client.queue(memoryview(build_http_response(
-                    httpStatusCodes.OK, body=response)))
+                    httpStatusCodes.OK, body=CACHE['data'])))
             elif request.path == b'/':
                 self.client.queue(memoryview(build_http_response(
-                    httpStatusCodes.OK, body=response)))
+                    httpStatusCodes.OK, body=CACHE['data'])))
 
     def on_websocket_open(self) -> None:
         logger.info('Websocket open')

@@ -73,9 +73,7 @@ def scheduler():  # Scheduler for tasks every X minutes
 
 
 def handle_packet(packet):
-    print("reveived passcket")
     if packet[IP].src == REMOTE_IP:
-        print("reveived packet")
         packet_raw = raw(packet)
         packet_clean = str(packet_raw).split("-TMA-")
         packetss = []
