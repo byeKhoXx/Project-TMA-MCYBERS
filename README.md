@@ -112,3 +112,9 @@ the webserver.
 All the before mentioned files include definition style variables that can include paths and tunnable parameteres,
 please read the documentation in those files to find out more on how to configure the whole system.
  
+# Developers
+
+Cankut Askan
+Albert Azemar
+Ismael Douha
+Marti Fernandez
