@@ -1,4 +1,7 @@
-# TMA-MCYBERS
+# TMA-MCYBERS Project
+
+## Introduction
+In this project we developed a prototype to detect and mitigate DoS/DDoS attacks. This project takes part of the TMA course of the UPC Master's Degree in Cybersecurity.
 
 ## Install
 In order to get the system up and running, 3 VMs, a NatNetwork and an internalNetwork are needed:
