@@ -114,7 +114,7 @@ please read the documentation in those files to find out more on how to configur
  
 # Developers
 
-Cankut Askan
-Albert Azemar
-Ismael Douha
-Marti Fernandez
+- Cankut Askan
+- Albert Azemar
+- Ismael Douha
+- Marti Fernandez
